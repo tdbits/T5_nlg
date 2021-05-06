@@ -8,8 +8,15 @@ import sys
 TRAIN_DIR = sys.argv[1]
 OUTPUT_DIR = sys.argv[2]
 
-files = glob.glob(os.path.join(TRAIN_DIR, "/**/*.xml"), recursive=True)
+files = []
+
+for root, dirs, file_names in os.walk(TRAIN_DIR):
+    for file_name in file_names:
+        if file_name.endswith('.xml'):
+            files.append(os.path.join(root, file_name))
+
 print(f"{len(files)} files found.")
+
 triple_re=re.compile('(\d)triples')
 data_dct={}
 for file in files:
