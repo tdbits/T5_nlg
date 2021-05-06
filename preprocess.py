@@ -3,7 +3,12 @@ import os
 import re
 import xml.etree.ElementTree as ET
 import pandas as pd
-files = glob.glob(os.getcwd() + "/path/to/training set/folder/**/*.xml", recursive=True)
+import sys
+
+TRAIN_DIR = sys.argv[1]
+OUTPUT_DIR = sys.argv[2]
+
+files = glob.glob(os.path.join(TRAIN_DIR, "/**/*.xml"), recursive=True)
 triple_re=re.compile('(\d)triples')
 data_dct={}
 for file in files:
@@ -31,4 +36,4 @@ for st,unst in data_dct.items():
 
 
 df=pd.DataFrame(mdata_dct)
-df.to_csv('webNLG2020_train.csv')
+df.to_csv(os.path.join(OUTPUT_DIR, 'webNLG2020_train.csv'))
