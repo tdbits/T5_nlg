@@ -9,9 +9,11 @@ TRAIN_DIR = sys.argv[1]
 OUTPUT_DIR = sys.argv[2]
 
 files = glob.glob(os.path.join(TRAIN_DIR, "/**/*.xml"), recursive=True)
+print(f"{len(files)} files found.")
 triple_re=re.compile('(\d)triples')
 data_dct={}
 for file in files:
+    print(file)
     tree = ET.parse(file)
     root = tree.getroot()
     triples_num=int(triple_re.findall(file)[0])
@@ -27,6 +29,7 @@ for file in files:
             strutured_master=strutured_master[-triples_num:]
             strutured_master_str=(' && ').join(strutured_master)
             data_dct[strutured_master_str]=unstructured
+print("Constructing dataframe.")
 mdata_dct={"prefix":[], "input_text":[], "target_text":[]}
 for st,unst in data_dct.items():
     for i in unst:
